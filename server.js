@@ -10,7 +10,15 @@ const startServer = async () => {
   console.log("SERVER FILE LOADED");
 
   const app = express();
-  app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173', // App B frontend
+    'http://localhost:5174', // App A frontend
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
   app.use(express.json());
 
   // 🔥 THIS LINE IS THE KEY
@@ -19,7 +27,7 @@ const startServer = async () => {
   app.use("/auth", authRoutes);
 
   app.listen(8000, () => {
-    console.log("🚀 SSO Auth Server running on port 5000");
+    console.log("🚀 SSO Auth Server running on port 8000");
   });
 };
 
